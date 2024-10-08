@@ -160,3 +160,22 @@ function getClassName(location) {
 	return cellClass;
 }
 
+function addBall() {
+	var location = randomBall();
+	renderCell(location, BALL_IMG)
+}
+
+function randomBall() {
+	do {
+		var i = Math.floor(Math.random() * (8)) + 1;
+		var j = Math.floor(Math.random() * (10)) + 1;
+	} while (Math.abs(i - j) != 1 && gBoard[i][j].gameElement === BALL)
+
+		return { i: i, j: j };
+}
+
+function checkWin() {
+
+}
+
+setInterval(addBall, 2000);
