@@ -32,7 +32,7 @@ function buildBoard() {
 			var cell = { type: FLOOR, gameElement: null };
 
 			// Place Walls at edges
-			if (i === 0 || i === board.length - 1 || j === 0 || j === board[0].length - 1) {
+			if ((i === 0 || i === board.length - 1 || j === 0 || j === board[0].length - 1) && j != 5 && i != 5) {
 				cell.type = WALL;
 			}
 
@@ -90,21 +90,31 @@ function renderBoard(board) {
 
 // Move the player to a specific location
 function moveTo(i, j) {
-
-	var targetCell = gBoard[i][j];
-	if (targetCell.type === WALL) return;
-
+	
 	// Calculate distance to make sure we are moving to a neighbor cell
 	var iAbsDiff = Math.abs(i - gGamerPos.i);
 	var jAbsDiff = Math.abs(j - gGamerPos.j);
 
+	if (i === gBoard.length)
+		i = 0
+	else if (i === -1)
+		i = gBoard.length - 1;
+	else if (j === gBoard[0].length)
+		j = 0
+	else if (j === -1)
+		j = gBoard[0].length - 1
+
+	var targetCell = gBoard[i][j];
+	if (targetCell.type === WALL)
+		return;
+
 	// If the clicked Cell is one of the four allowed
-	if ((iAbsDiff === 1 && jAbsDiff === 0) || (jAbsDiff === 1 && iAbsDiff === 0)) {
+	if ((iAbsDiff + jAbsDiff == 1)) {
 
 		if (targetCell.gameElement === BALL) {
-			console.log(200,'Collecting!');
+			console.log(200, 'Collecting!');
 			counterBalls--;
-			console.log(200,counterBalls)
+			console.log(200, counterBalls)
 		}
 
 		// MOVING from current position
