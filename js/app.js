@@ -6,6 +6,8 @@ var GAMER = 'GAMER';
 var GAMER_IMG = '<img src="img/gamer.png" />';
 var BALL_IMG = '<img src="img/ball.png" />';
 
+var counterBalls = 2;
+
 var gBoard;
 var gGamerPos;
 function initGame() {
@@ -100,7 +102,9 @@ function moveTo(i, j) {
 	if ((iAbsDiff === 1 && jAbsDiff === 0) || (jAbsDiff === 1 && iAbsDiff === 0)) {
 
 		if (targetCell.gameElement === BALL) {
-			console.log('Collecting!');
+			console.log(200,'Collecting!');
+			counterBalls--;
+			console.log(200,counterBalls)
 		}
 
 		// MOVING from current position
@@ -116,6 +120,10 @@ function moveTo(i, j) {
 		gBoard[gGamerPos.i][gGamerPos.j].gameElement = GAMER;
 		// DOM:
 		renderCell(gGamerPos, GAMER_IMG);
+
+		if (checkWin()) {
+			alert('Congratulations! You Won!');
+		}
 
 	} // else console.log('TOO FAR', iAbsDiff, jAbsDiff);
 
@@ -163,6 +171,8 @@ function getClassName(location) {
 function addBall() {
 	var location = randomBall();
 	renderCell(location, BALL_IMG)
+	gBoard[location.i][location.j].gameElement = BALL;
+	counterBalls++;
 }
 
 function randomBall() {
@@ -171,11 +181,11 @@ function randomBall() {
 		var j = Math.floor(Math.random() * (10)) + 1;
 	} while (Math.abs(i - j) != 1 && gBoard[i][j].gameElement === BALL)
 
-		return { i: i, j: j };
+	return { i: i, j: j };
 }
 
 function checkWin() {
-
+	return counterBalls == 0
 }
 
-setInterval(addBall, 2000);
+setInterval(addBall, 3000);
